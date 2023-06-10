@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id              Int               @id @unique @default(autoincrement())
+  name            String
+  email           String
+  password        String
+  id_adm          Boolean           @default(false)
+  hash            String            @default(uuid())
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  deleted_at      DateTime?
+  product_control product_control[]
+}
+
+model product_control {
+  id            Int        @id @unique @default(autoincrement())
+  user          users      @relation(fields: [user_id], references: [id])
+  user_id       Int
+  using_at      DateTime?
+  devolution_at DateTime?
+  product       products[]
+}
+
+model category {
+  id          Int        @id @unique @default(autoincrement())
+  name        String
+  description String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  deleted_at  DateTime?
+  product     products[]
+}
+
+model origin {
+  id      Int        @id @unique @default(autoincrement())
+  name    String
+  product products[]
+}
+
+model rooms {
+  id            Int        @id @unique @default(autoincrement())
+  name          String
+  identfier_key Int
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  deleted_at    DateTime?
+  product       products[]
+}
+
+model products {
+  id              Int              @id @unique @default(autoincrement())
+  category        category         @relation(fields: [category_id], references: [id])
+  category_id     Int
+  product_control product_control? @relation(fields: [control_id], references: [id])
+  control_id      Int?
+  origin          origin           @relation(fields: [origin_id], references: [id])
+  origin_id       Int
+  room            rooms            @relation(fields: [room_id], references: [id])
+  room_id         Int
+  name            String
+  sku             String
+  hash            String           @default(uuid())
+  broken_at       DateTime?
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+  deleted_at      DateTime?
+}
