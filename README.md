@@ -1,74 +1,70 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Tic - Backend 🚀
+<h2>Objetivos:</h2>
+<p>- Criar uma aplicação utilizando NodeJs.</p>
+<p>- Nesse projeto nós utilizamos o framework NestJs.</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Passo a Passo para Executar um Projeto NestJS
+## Passo 1: Clonar o repositório
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Abra o terminal e navegue até o diretório onde deseja clonar o projeto. Em seguida, execute o seguinte comando:
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+```shell
+git clone <URL_DO_REPOSITÓRIO>
 ```
 
-## Running the app
+Substitua `<URL_DO_REPOSITÓRIO>` pela URL do repositório do projeto NestJS que você deseja clonar.
 
-```bash
-# development
-$ npm run start
+## Passo 2: Instalar as dependências
 
-# watch mode
-$ npm run start:dev
+Após clonar o repositório, navegue até o diretório do projeto usando o terminal. Execute o comando a seguir para instalar as dependências do projeto:
 
-# production mode
-$ npm run start:prod
+```shell
+cd <NOME_DO_DIRETÓRIO>
+npm install
 ```
 
-## Test
+Certifique-se de substituir `<NOME_DO_DIRETÓRIO>` pelo nome do diretório do projeto recém-clonado.
 
-```bash
-# unit tests
-$ npm run test
+## Passo 3: Configurar as variáveis de ambiente
 
-# e2e tests
-$ npm run test:e2e
+Alguns projetos NestJS exigem configurações específicas nas variáveis de ambiente. Verifique se há um arquivo `.env.example` no diretório raiz do projeto e crie um arquivo `.env` com as configurações apropriadas. 
 
-# test coverage
-$ npm run test:cov
+```shell
+cp .env.example .env
 ```
 
-## Support
+Abra o arquivo `.env` em um editor de texto e configure as variáveis de ambiente necessárias para o projeto.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Passo 4: Executar o projeto
 
-## Stay in touch
+Agora você está pronto para executar o projeto NestJS. No terminal, execute o seguinte comando:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```shell
+npm run start
+```
 
-## License
+O comando `start` irá compilar e executar o projeto. Verifique a saída no terminal para obter informações sobre em qual porta o servidor está sendo executado.
 
-Nest is [MIT licensed](LICENSE).
-# tic-backend
+## Passo 5: Acessar o projeto
+
+Após a execução bem-sucedida, você pode acessar o projeto NestJS em seu navegador ou por meio de ferramentas de API, como o Postman. Por padrão, o servidor NestJS será executado em `http://localhost:3000`, a menos que você tenha especificado uma porta diferente nas variáveis de ambiente.
+
+## Outros comandos úteis
+
+Aqui estão alguns comandos adicionais que podem ser úteis durante o desenvolvimento do projeto:
+
+- `npm run build`: Compila o projeto NestJS.
+- `npm run watch`: Compila o projeto e monitora alterações nos arquivos para reiniciar automaticamente o servidor durante o desenvolvimento.
+- `npm run test`: Executa os testes automatizados do projeto.
+
+Certifique-se de verificar o arquivo `package.json` do projeto para ver outros comandos disponíveis, específicos do projeto.
+
+## Conclusão
+
+Agora você deve ter o projeto NestJS em execução em sua máquina local. Siga este guia sempre que precisar executar o projeto a partir do GitHub. Se encontrar algum problema durante a execução do projeto, verifique se seguiu corretamente todos os passos descritos neste README ou procure por soluções nas documentações ou fóruns relacionados ao NestJS.
+
+
+Pronto! Agora você pode copiar e colar o texto acima no arquivo README.md do seu projeto no GitHub. Certifique-se de substituir `<
+
+
+
