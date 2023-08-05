@@ -15,7 +15,7 @@ model users {
   name            String
   email           String
   password        String
-  id_adm          Boolean           @default(false)
+  is_adm          Boolean           @default(false)
   hash            String            @default(uuid())
   created_at      DateTime          @default(now())
   updated_at      DateTime          @updatedAt

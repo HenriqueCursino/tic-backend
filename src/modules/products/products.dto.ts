@@ -20,3 +20,14 @@ export type deleteProduct = {
 export type updateProduct = {
     hash: string,
 }
+
+export type listProduct = {
+    categoryId: number,
+    controlId: number,
+    originId: number,
+    roomId: number,
+    name: string,
+    sku: string,
+    hash: string,
+    brokenAt: Date,
+}

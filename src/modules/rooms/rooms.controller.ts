@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import { rooms } from '@prisma/client';
 import { Response } from 'express';
-import { createRoom } from './rooms.dto';
+import { createRoom, listRooms } from './rooms.dto';
 import { RoomService } from './rooms.service';
 
 @Controller('room')
@@ -9,7 +8,7 @@ export class RoomsController {
   constructor(private readonly RoomService: RoomService) {}
 
   @Get()
-  async getAllUsers(): Promise<rooms[]> {
+  async getAllUsers(): Promise<listRooms[]> {
     return this.RoomService.getAll();
   }
 

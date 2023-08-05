@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import { category, rooms } from '@prisma/client';
 import { Response } from 'express';
-import { createCategory } from './category.dto';
+import { createCategory, listCategory } from './category.dto';
 import { CategoryService } from './category.service';
 
 @Controller('category')
@@ -9,7 +8,7 @@ export class CategoryController {
   constructor(private readonly CategoryService: CategoryService) {}
 
   @Get()
-  async getAllUsers(): Promise<category[]> {
+  async getAllUsers(): Promise<listCategory[]> {
     return this.CategoryService.getAll();
   }
 

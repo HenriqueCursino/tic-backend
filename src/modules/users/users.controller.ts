@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Post, Res } from '@nestjs/common';
-import { users } from '@prisma/client';
-import { createUser, login, deleteUser } from './users.dto';
+import { createUser, login, deleteUser, listUsers } from './users.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express';
 
@@ -9,13 +8,18 @@ export class UsersController {
   constructor(private readonly UserService: UsersService) {}
 
   @Get()
-  async getAllUsers(): Promise<users[]> {
+  async getAllUsers(): Promise<listUsers[]> {
     return this.UserService.getAll();
   }
 
   @Post()
-  async create(@Body() data: createUser, @Res() response: Response): Promise<users> {
-    return this.UserService.create(data)
+  async create(@Body() data: createUser, @Res() response: Response): Promise<void> {
+    const newUser = this.UserService.create(data)
+    if (newUser) {
+      response.status(200).send();
+    } else {
+      response.status(401).json({ message: 'Failed to create user' });
+    }
   }
 
   @Delete()

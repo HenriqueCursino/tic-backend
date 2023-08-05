@@ -12,7 +12,9 @@ export type login = {
 export type listUsers = {
     name: string,
     email: string,
-    created_at: string,
+    hash: string,
+    is_adm: boolean,
+    created_at: Date,
 }
 
 export type deleteUser = {

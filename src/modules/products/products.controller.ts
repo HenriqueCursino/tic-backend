@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common';
 import { products, product_control } from '@prisma/client';
 import { Response } from 'express';
-import { createProduct, deleteProduct, useProduct } from './products.dto';
+import { createProduct, deleteProduct, listProduct, useProduct } from './products.dto';
 import { ProductService } from './products.service';
 
 @Controller('products')
@@ -9,7 +9,7 @@ export class ProductController {
   constructor(private readonly ProductService: ProductService) {}
 
   @Get()
-  async getAll(): Promise<products[]> {
+  async getAll(): Promise<listProduct[]> {
     return this.ProductService.getAll();
   }
 
