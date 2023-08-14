@@ -1,19 +1,19 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { BadRequestException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { createRoom } from './rooms.dto';
 import { AppError } from 'src/shared/errors/error';
 import { EntityMapper } from './rooms.entity';
+import { RoomRepository } from 'src/repository/rooms/rooms.interface';
 
 @Injectable()
 export class RoomService {
   constructor(
-    private prisma: PrismaService,
+    @Inject('RoomRepository') private readonly repository: RoomRepository,
     private entityMapper: EntityMapper
   ) {}
 
   async getAll() {
     try {
-      const rooms = await this.prisma.rooms.findMany();
+      const rooms = await this.repository.getAllRooms()
       if (!rooms.length) throw new BadRequestException('Not found room')
 
       return this.entityMapper.mapToRoomList(rooms);
@@ -27,22 +27,13 @@ export class RoomService {
 
   async create(data: createRoom) {
     try {
-      const roomExist = await this.prisma.rooms.findFirst({
-        where: {
-          identfier_key: data.identfier_key
-        }
-      })
+      const roomExist = await this.repository.getRoomByIdentfierKey(data.identfier_key)
 
       if (roomExist) {
         return
       }
 
-      const newRoom = await this.prisma.rooms.create({
-        data: {
-          name: data.name,
-          identfier_key: data.identfier_key
-        }
-      })
+      const newRoom = await this.repository.createRoom(data)
 
       return newRoom
   } catch (error) {

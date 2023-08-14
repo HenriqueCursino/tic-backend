@@ -1,18 +1,21 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { BadRequestException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { createProduct, useProduct } from './products.dto';
 import { AppError } from 'src/shared/errors/error';
 import { EntityMapper } from './products.entity';
+import { ProductsRepository } from 'src/repository/products/products.interface';
+import { UserRepository } from 'src/repository/users/users.interface';
 
 @Injectable()
 export class ProductService {
   constructor(
-    private prisma: PrismaService,
-    private entity: EntityMapper) {}
+    @Inject('ProductsRepository') private readonly repository: ProductsRepository,
+    @Inject('UserRepository') private readonly userRepository: UserRepository,
+    private entity: EntityMapper
+  ) {}
 
   async getAll() {
     try {
-      const product = await this.prisma.products.findMany();
+      const product = await this.repository.getAllProducts()
       if (!product.length) throw new BadRequestException('Not found product.')
       
       return this.entity.mapToProductList(product);
@@ -26,33 +29,13 @@ export class ProductService {
 
   async useProduct(data: useProduct) {
     try {
-      const product = await this.prisma.products.findFirst({
-          where: {
-            hash: data.productHash
-          }
-      })
+      const product = await this.repository.getProductByHash(data.productHash)
 
-      const user = await this.prisma.users.findFirst({
-        where: {
-          hash: data.userHash
-        }
-      })
+      const user = await this.userRepository.getUserByHash(data.userHash)
 
-      const usingProduct = await this.prisma.product_control.create({
-        data: {
-          user_id: user.id,
-          using_at: new Date(),
-        }
-      })
+      const usingProduct = await this.repository.usingProduct(user.id)
 
-      await this.prisma.products.update({
-        where: {
-          id: product.id
-        },
-        data: {
-          control_id: usingProduct.id
-        }
-      })
+      await this.repository.updateUseProduct(product.id, usingProduct.id)
 
       return usingProduct
     } catch (error) {
@@ -65,33 +48,13 @@ export class ProductService {
 
   async devolutionProduct(data: useProduct) {
     try {
-      const product = await this.prisma.products.findFirst({
-        where: {
-          hash: data.productHash
-        }
-      })
+      const product = await this.repository.getProductByHash(data.productHash)
 
-      const user = await this.prisma.users.findFirst({
-        where: {
-          hash: data.userHash
-        }
-      })
+      const user = await this.userRepository.getUserByHash(data.userHash)
 
-      const usingProduct = await this.prisma.product_control.create({
-        data: {
-          user_id: user.id,
-          devolution_at: new Date(),
-        }
-      })
+      const usingProduct = await this.repository.postProductControl(user.id)
 
-      await this.prisma.products.update({
-        where: {
-          id: product.id
-        },
-        data: {
-          control_id: usingProduct.id
-        }
-      })
+      await this.repository.updateUseProduct(product.id, usingProduct.id)
 
       return usingProduct
     } catch (error) {
@@ -104,27 +67,13 @@ export class ProductService {
 
   async create(data: createProduct) {
     try {
-      const productExist = await this.prisma.products.findFirst({
-        where: {
-          sku: data.sku
-        }
-      })
+      const productExist = await this.repository.getProductBySku(data.sku)
 
       if (productExist) {
         throw new Error("This is already registered.")
       }
 
-      const newProduct = await this.prisma.products.create({
-        data: {
-          category_id: data.categoryId,
-          control_id: data.controlId,
-          origin_id: data.originId,
-          room_id: data.roomId,
-          name: data.name,
-          sku: data.sku,
-          broken_at: data.brokenAt ? new Date() : null,
-        }
-      })
+      const newProduct = await this.repository.createProduct(data)
 
       return newProduct
     } catch (error) {
@@ -137,23 +86,13 @@ export class ProductService {
 
   async delete(hash: string) {
     try {
-      const product = await this.prisma.products.findFirst({
-        where: {
-          hash: hash,
-        }
-      })
+      const product = await this.repository.getProductByHash(hash)
 
       if (!product) {
         throw new Error("Product not found.")
       }
 
-      const now = new Date();
-      const deletedUser = await this.prisma.products.update({
-        where: { id: product.id },
-        data: {
-          deleted_at: now
-        },
-      });
+      const deletedUser = await this.repository.deleteProduct(product.id)
 
       return deletedUser;
     } catch (error) {

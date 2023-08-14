@@ -6,9 +6,21 @@ import { RoomModule } from './modules/rooms/rooms.module';
 import { UsersModule } from './modules/users/users.module';
 import { HealthService } from './modules/health/health.service';
 import { HealthController } from './modules/health/health.controller';
+import { UserRepositoryModule } from './repository/users/users.module';
+import { RoomRepositoryModule } from './repository/rooms/rooms.module';
+import { ProductsRepositoryModule } from './repository/products/products.module';
 
 @Module({
-  imports: [UsersModule, RoomModule, OriginModule, RoomCategory, ProductModule],
+  imports: [
+    UsersModule,
+    UserRepositoryModule,
+    RoomModule,
+    RoomRepositoryModule,
+    OriginModule,
+    RoomCategory,
+    ProductModule,
+    ProductsRepositoryModule
+  ],
   providers: [HealthService],
   controllers: [HealthController],
 })

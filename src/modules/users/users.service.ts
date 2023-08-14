@@ -1,24 +1,19 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { BadRequestException, HttpStatus, Inject, Injectable, Module } from '@nestjs/common';
 import { createUser, deleteUser, login } from './users.dto';
 import * as bcrypt from 'bcrypt';
 import { AppError } from 'src/shared/errors/error';
 import { EntityMapper } from './users.entity';
-
+import { UserRepository } from 'src/repository/users/users.interface';
 @Injectable()
 export class UsersService {
   constructor(
-    private prisma: PrismaService,
+    @Inject('UserRepository') private readonly repository: UserRepository,
     private entityMapper: EntityMapper
   ) {}
 
   async getAll() {
     try {
-      const users = await this.prisma.users.findMany({
-        where: {
-          deleted_at: null
-        }
-      });
+      const users = await this.repository.getAllUsers()
   
       if (!users.length) {
         throw new BadRequestException('Not found users.');
@@ -36,11 +31,7 @@ export class UsersService {
 
   async create(data: createUser) {
     try {
-      const userExist = await this.prisma.users.findFirst({
-        where: {
-          email: data.email,
-        },
-      });
+      const userExist = await this.repository.getUserByEmail(data.email)
 
       if (userExist) {
         throw new BadRequestException('User already registered.');
@@ -50,13 +41,7 @@ export class UsersService {
       const encryptedPassword = bcrypt.hashSync(data.password, securityKey);
       data.password = encryptedPassword;
 
-      const newUser = await this.prisma.users.create({
-        data: {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        },
-      });
+      const newUser = await this.repository.createUser(data)
 
       return newUser;
     } catch (error) {
@@ -69,11 +54,7 @@ export class UsersService {
 
   async login(data: login) {
     try {
-      const user = await this.prisma.users.findFirst({
-        where: {
-          email: data.email,
-        },
-      });
+      const user = await this.repository.getUserByEmail(data.email)
 
       if (!user) {
         throw new BadRequestException('Invalid credentials.');
@@ -91,24 +72,13 @@ export class UsersService {
 
   async delete(data: deleteUser) {
     try {
-      const user = await this.prisma.users.findFirst({
-        where: {
-          email: data.email,
-          deleted_at: null,
-        },
-      });
+      const user = await this.repository.getUserByEmail(data.email)
 
       if (!user) {
         return;
       }
 
-      const now = new Date();
-      const deletedUser = await this.prisma.users.update({
-        where: { id: user.id },
-        data: {
-          deleted_at: now,
-        },
-      });
+      const deletedUser = await this.repository.deleteUser(user.id)
 
       return deletedUser;
     } catch (error) {
