@@ -9,6 +9,8 @@ import { HealthController } from './modules/health/health.controller';
 import { UserRepositoryModule } from './repository/users/users.module';
 import { RoomRepositoryModule } from './repository/rooms/rooms.module';
 import { ProductsRepositoryModule } from './repository/products/products.module';
+import { CategoryRepositoryModule } from './repository/category/category.module';
+import { OriginRepositoryModule } from './repository/origin/origin.module';
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { ProductsRepositoryModule } from './repository/products/products.module'
     RoomModule,
     RoomRepositoryModule,
     OriginModule,
+    OriginRepositoryModule,
     RoomCategory,
+    CategoryRepositoryModule,
     ProductModule,
     ProductsRepositoryModule
   ],
