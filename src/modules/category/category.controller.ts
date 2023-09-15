@@ -13,8 +13,11 @@ export class CategoryController {
   }
 
   @Post()
-  async create(@Body() data: createCategory, @Res() response: Response): Promise<void> {
-    const newRoom = this.CategoryService.create(data)
+  async create(
+    @Body() data: createCategory,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newRoom = this.CategoryService.create(data);
     if (newRoom) {
       response.status(200).send();
     } else {

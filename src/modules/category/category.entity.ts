@@ -6,8 +6,8 @@ import { listCategory } from './category.dto';
 export class EntityMapper {
   mapToCategoryList(modelCategories: category[]): listCategory[] {
     return modelCategories.map((modelCategory) => ({
-        name: modelCategory.name,
-        description: modelCategory.description,
+      name: modelCategory.name,
+      description: modelCategory.description,
     }));
   }
 }

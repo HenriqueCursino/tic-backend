@@ -8,15 +8,15 @@ async function seed() {
     await prisma.users.createMany({
       data: [
         {
-          name: 'User 1',
-          email: 'user1@example.com',
-          password: 'password1',
+          name: 'Roberto Eilisan',
+          email: 'roberto@gmail.com',
+          password: 'senha123',
           is_adm: true,
         },
         {
-          name: 'User 2',
-          email: 'user2@example.com',
-          password: 'password2',
+          name: 'Henrique Cursino',
+          email: 'henrique@gail.com',
+          password: 'senha123',
           is_adm: false,
         },
       ],
@@ -41,12 +41,12 @@ async function seed() {
     await prisma.category.createMany({
       data: [
         {
-          name: 'Category 1',
-          description: 'Description for Category 1',
+          name: 'Eletrônicos',
+          description: 'Computados',
         },
         {
-          name: 'Category 2',
-          description: 'Description for Category 2',
+          name: 'Limpeza e Higiene',
+          description: 'Papel higiênico',
         },
       ],
     });
@@ -55,10 +55,10 @@ async function seed() {
     await prisma.origin.createMany({
       data: [
         {
-          name: 'Origin 1',
+          name: 'Ongs',
         },
         {
-          name: 'Origin 2',
+          name: 'Doações',
         },
       ],
     });
@@ -67,11 +67,11 @@ async function seed() {
     await prisma.rooms.createMany({
       data: [
         {
-          name: 'Room 1',
+          name: 'Sala 1',
           identfier_key: 123,
         },
         {
-          name: 'Room 2',
+          name: 'Sala 2',
           identfier_key: 456,
         },
       ],

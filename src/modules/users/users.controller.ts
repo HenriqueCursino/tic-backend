@@ -13,8 +13,11 @@ export class UsersController {
   }
 
   @Post()
-  async create(@Body() data: createUser, @Res() response: Response): Promise<void> {
-    const newUser = this.UserService.create(data)
+  async create(
+    @Body() data: createUser,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newUser = this.UserService.create(data);
     if (newUser) {
       response.status(200).send();
     } else {
@@ -23,8 +26,11 @@ export class UsersController {
   }
 
   @Delete()
-  async delete(@Body() data: deleteUser, @Res() response: Response): Promise<void> {
-    const loginResult = await this.UserService.delete(data)
+  async delete(
+    @Body() data: deleteUser,
+    @Res() response: Response,
+  ): Promise<void> {
+    const loginResult = await this.UserService.delete(data);
     if (loginResult) {
       response.status(204).send();
     } else {
@@ -32,9 +38,9 @@ export class UsersController {
     }
   }
 
-  @Post("login")
+  @Post('login')
   async login(@Body() data: login, @Res() response: Response): Promise<void> {
-    const loginResult = await this.UserService.login(data)
+    const loginResult = await this.UserService.login(data);
     if (loginResult) {
       response.status(200).send();
     } else {

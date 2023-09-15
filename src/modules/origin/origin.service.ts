@@ -1,4 +1,9 @@
-import { BadRequestException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { createOrigin } from './origin.dto';
 import { AppError } from 'src/shared/errors/error';
 import { EntityMapper } from './origin.entity';
@@ -8,12 +13,13 @@ import { OriginRepository } from 'src/repository/origin/origin.interface';
 export class OriginService {
   constructor(
     @Inject('OriginRepository') private readonly repository: OriginRepository,
-    private entity: EntityMapper) {}
+    private entity: EntityMapper,
+  ) {}
 
   async getAll() {
-    try { 
-      const origin = await this.repository.getAllOrigin()
-      if (!origin.length) throw new BadRequestException('Not found origin.')
+    try {
+      const origin = await this.repository.getAllOrigin();
+      if (!origin.length) throw new BadRequestException('Not found origin.');
       return this.entity.mapToOriginList(origin);
     } catch (error) {
       throw new AppError(
@@ -25,15 +31,15 @@ export class OriginService {
 
   async create(data: createOrigin) {
     try {
-      const originExist = await this.repository.getOriginByName(data.name)
+      const originExist = await this.repository.getOriginByName(data.name);
 
       if (originExist) {
-        throw new Error("This is already registered")
+        throw new Error('This is already registered');
       }
 
-      const newOrgin = await this.repository.createOrigin(data)
+      const newOrgin = await this.repository.createOrigin(data);
 
-      return newOrgin
+      return newOrgin;
     } catch (error) {
       throw new AppError(
         error?.message || 'Failed to create room',

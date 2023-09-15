@@ -6,7 +6,7 @@ import { listOrigin } from './origin.dto';
 export class EntityMapper {
   mapToOriginList(modelOrigins: origin[]): listOrigin[] {
     return modelOrigins.map((modelOrigin) => ({
-        name: modelOrigin.name,
+      name: modelOrigin.name,
     }));
   }
 }

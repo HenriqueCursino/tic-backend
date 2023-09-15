@@ -1,7 +1,7 @@
 export type createOrigin = {
-    name: string,
-}
+  name: string;
+};
 
 export type listOrigin = {
-    name: string,
-}
+  name: string;
+};

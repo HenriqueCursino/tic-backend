@@ -1,7 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common';
-import { products, product_control } from '@prisma/client';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
+import { product_control } from '@prisma/client';
 import { Response } from 'express';
-import { createProduct, deleteProduct, listProduct, useProduct } from './products.dto';
+import { createProduct, listProduct, useProduct } from './products.dto';
 import { ProductService } from './products.service';
 
 @Controller('products')
@@ -14,9 +22,12 @@ export class ProductController {
   }
 
   @Post()
-  async create(@Body() data: createProduct, @Res() response: Response): Promise<void> {
+  async create(
+    @Body() data: createProduct,
+    @Res() response: Response,
+  ): Promise<void> {
     try {
-      const newProduct = this.ProductService.create(data)
+      const newProduct = this.ProductService.create(data);
       if (newProduct) {
         response.status(200).send();
       }
@@ -25,14 +36,17 @@ export class ProductController {
     }
   }
 
-  @Post("control")
-  async (@Body() data: useProduct): Promise<product_control> {
-    return this.ProductService.devolutionProduct(data)
+  @Post('control')
+  async(@Body() data: useProduct): Promise<product_control> {
+    return this.ProductService.devolutionProduct(data);
   }
 
-  @Delete("/:productHash")
-  async delete(@Param('productHash') productHash: string, @Res() response: Response): Promise<void> {
-    const deleteProduct = await this.ProductService.delete(productHash)
+  @Delete('/:productHash')
+  async delete(
+    @Param('productHash') productHash: string,
+    @Res() response: Response,
+  ): Promise<void> {
+    const deleteProduct = await this.ProductService.delete(productHash);
     if (deleteProduct) {
       response.status(204).send();
     } else {

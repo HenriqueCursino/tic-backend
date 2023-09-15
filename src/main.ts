@@ -9,7 +9,6 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // cabeçalhos permitidos
   });
-  
 
   await app.listen(3001);
 }

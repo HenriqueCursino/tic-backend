@@ -23,7 +23,7 @@ import { OriginRepositoryModule } from './repository/origin/origin.module';
     RoomCategory,
     CategoryRepositoryModule,
     ProductModule,
-    ProductsRepositoryModule
+    ProductsRepositoryModule,
   ],
   providers: [HealthService],
   controllers: [HealthController],

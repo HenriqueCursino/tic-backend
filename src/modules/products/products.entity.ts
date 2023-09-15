@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { products } from '@prisma/client';
 import { listProduct } from './products.dto';
+import { ProductWithCategory } from 'src/repository/products/products.dto';
 
 @Injectable()
 export class EntityMapper {
-  mapToProductList(modelProducts: products[]): listProduct[] {
+  mapToProductList(modelProducts: ProductWithCategory[]): listProduct[] {
     return modelProducts.map((modelProduct) => ({
-      categoryId: modelProduct.category_id,
+      category: modelProduct.category?.name,
       controlId: modelProduct.control_id,
-      originId: modelProduct.origin_id,
-      roomId: modelProduct.room_id,
+      origin: modelProduct.origin?.name,
+      room: modelProduct.room?.name,
       name: modelProduct.name,
       sku: modelProduct.sku,
       hash: modelProduct.hash,

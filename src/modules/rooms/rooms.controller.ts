@@ -13,8 +13,11 @@ export class RoomsController {
   }
 
   @Post()
-  async create(@Body() data: createRoom, @Res() response: Response): Promise<void> {
-    const newRoom = this.RoomService.create(data)
+  async create(
+    @Body() data: createRoom,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newRoom = this.RoomService.create(data);
     if (newRoom) {
       response.status(200).send();
     } else {

@@ -13,8 +13,11 @@ export class OriginController {
   }
 
   @Post()
-  async create(@Body() data: createOrigin, @Res() response: Response): Promise<void> {
-    const newRoom = this.OriginService.create(data)
+  async create(
+    @Body() data: createOrigin,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newRoom = this.OriginService.create(data);
     if (newRoom) {
       response.status(200).send();
     } else {

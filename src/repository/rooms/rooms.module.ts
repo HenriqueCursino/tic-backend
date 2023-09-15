@@ -4,9 +4,7 @@ import { PrismaModule } from 'src/prisma/prisma.module';
 @Global()
 @Module({
   imports: [PrismaModule],
-  providers: [
-    { provide: 'RoomRepository', useClass: PrismaRoomRepository },
-  ],
+  providers: [{ provide: 'RoomRepository', useClass: PrismaRoomRepository }],
   exports: [
     {
       provide: 'RoomRepository',

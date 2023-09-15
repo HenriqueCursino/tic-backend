@@ -1,4 +1,9 @@
-import { BadRequestException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { createProduct, useProduct } from './products.dto';
 import { AppError } from 'src/shared/errors/error';
 import { EntityMapper } from './products.entity';
@@ -8,16 +13,17 @@ import { UserRepository } from 'src/repository/users/users.interface';
 @Injectable()
 export class ProductService {
   constructor(
-    @Inject('ProductsRepository') private readonly repository: ProductsRepository,
+    @Inject('ProductsRepository')
+    private readonly repository: ProductsRepository,
     @Inject('UserRepository') private readonly userRepository: UserRepository,
-    private entity: EntityMapper
+    private entity: EntityMapper,
   ) {}
 
   async getAll() {
     try {
-      const product = await this.repository.getAllProducts()
-      if (!product.length) throw new BadRequestException('Not found product.')
-      
+      const product = await this.repository.getAllProducts();
+      if (!product.length) throw new BadRequestException('Not found product.');
+
       return this.entity.mapToProductList(product);
     } catch (error) {
       throw new AppError(
@@ -29,15 +35,15 @@ export class ProductService {
 
   async useProduct(data: useProduct) {
     try {
-      const product = await this.repository.getProductByHash(data.productHash)
+      const product = await this.repository.getProductByHash(data.productHash);
 
-      const user = await this.userRepository.getUserByHash(data.userHash)
+      const user = await this.userRepository.getUserByHash(data.userHash);
 
-      const usingProduct = await this.repository.usingProduct(user.id)
+      const usingProduct = await this.repository.usingProduct(user.id);
 
-      await this.repository.updateUseProduct(product.id, usingProduct.id)
+      await this.repository.updateUseProduct(product.id, usingProduct.id);
 
-      return usingProduct
+      return usingProduct;
     } catch (error) {
       throw new AppError(
         error?.message || 'Failed to update product',
@@ -48,15 +54,15 @@ export class ProductService {
 
   async devolutionProduct(data: useProduct) {
     try {
-      const product = await this.repository.getProductByHash(data.productHash)
+      const product = await this.repository.getProductByHash(data.productHash);
 
-      const user = await this.userRepository.getUserByHash(data.userHash)
+      const user = await this.userRepository.getUserByHash(data.userHash);
 
-      const usingProduct = await this.repository.postProductControl(user.id)
+      const usingProduct = await this.repository.postProductControl(user.id);
 
-      await this.repository.updateUseProduct(product.id, usingProduct.id)
+      await this.repository.updateUseProduct(product.id, usingProduct.id);
 
-      return usingProduct
+      return usingProduct;
     } catch (error) {
       throw new AppError(
         error?.message || 'Failed to devolution product',
@@ -67,15 +73,15 @@ export class ProductService {
 
   async create(data: createProduct) {
     try {
-      const productExist = await this.repository.getProductBySku(data.sku)
+      const productExist = await this.repository.getProductBySku(data.sku);
 
       if (productExist) {
-        throw new Error("This is already registered.")
+        throw new Error('This is already registered.');
       }
 
-      const newProduct = await this.repository.createProduct(data)
+      const newProduct = await this.repository.createProduct(data);
 
-      return newProduct
+      return newProduct;
     } catch (error) {
       throw new AppError(
         error?.message || 'Failed to create product',
@@ -86,13 +92,13 @@ export class ProductService {
 
   async delete(hash: string) {
     try {
-      const product = await this.repository.getProductByHash(hash)
+      const product = await this.repository.getProductByHash(hash);
 
       if (!product) {
-        throw new Error("Product not found.")
+        throw new Error('Product not found.');
       }
 
-      const deletedUser = await this.repository.deleteProduct(product.id)
+      const deletedUser = await this.repository.deleteProduct(product.id);
 
       return deletedUser;
     } catch (error) {
