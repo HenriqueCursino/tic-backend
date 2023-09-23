@@ -42,7 +42,20 @@ export class UsersController {
   async login(@Body() data: login, @Res() response: Response): Promise<void> {
     const loginResult = await this.UserService.login(data);
     if (loginResult) {
-      response.status(200).send();
+      response.status(200).send(loginResult);
+    } else {
+      response.status(401).json({ message: 'Failed authentication' });
+    }
+  }
+
+  @Post('password')
+  async changePassword(
+    @Body() data: login,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newUser = await this.UserService.changePassword(data);
+    if (newUser) {
+      response.status(200).send(newUser);
     } else {
       response.status(401).json({ message: 'Failed authentication' });
     }

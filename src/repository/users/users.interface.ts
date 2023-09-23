@@ -7,4 +7,5 @@ export interface UserRepository {
   getUserByHash(hash: string): Promise<users>;
   deleteUser(id: number): Promise<users>;
   createUser(data: createUser): Promise<users>;
+  changePassword(id: number, newPassword: string): Promise<users>;
 }

@@ -3,7 +3,6 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-  Module,
 } from '@nestjs/common';
 import { createUser, deleteUser, login } from './users.dto';
 import * as bcrypt from 'bcrypt';
@@ -66,7 +65,36 @@ export class UsersService {
       }
 
       const isValid = await bcrypt.compare(data.password, user.password);
+      if (isValid) {
+        return user;
+      }
+
       return isValid;
+    } catch (error) {
+      throw new AppError(
+        error?.message || 'Failed to login',
+        error?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async changePassword(data: login) {
+    try {
+      const user = await this.repository.getUserByEmail(data.email);
+
+      if (!user) {
+        throw new BadRequestException('Invalid credentials.');
+      }
+
+      const securityKey = parseInt(process.env.PASSWORD_SECURITY);
+      const newPassword = bcrypt.hashSync(data.password, securityKey);
+
+      const newUser = await this.repository.changePassword(
+        user.id,
+        newPassword,
+      );
+
+      return newUser;
     } catch (error) {
       throw new AppError(
         error?.message || 'Failed to login',
