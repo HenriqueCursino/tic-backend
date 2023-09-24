@@ -57,6 +57,7 @@ export class PrismaUserRepository implements UserRepository {
         name: data.name,
         email: data.email,
         password: data.password,
+        is_adm: data.is_adm || false,
       },
     });
   }
