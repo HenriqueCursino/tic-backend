@@ -28,6 +28,9 @@ export class PrismaProductsRepository implements ProductsRepository {
           },
         },
       },
+      where: {
+        deleted_at: null,
+      },
     });
 
     return products as ProductWithCategory[];
