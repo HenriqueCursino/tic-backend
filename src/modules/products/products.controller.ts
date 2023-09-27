@@ -36,6 +36,20 @@ export class ProductController {
     }
   }
 
+  @Post('/:productHash')
+  async updateUser(
+    @Param('productHash') productHash: string,
+    @Body() data: createProduct,
+    @Res() response: Response,
+  ): Promise<void> {
+    const newProduct = await this.ProductService.update(productHash, data);
+    if (newProduct) {
+      response.status(204).send();
+    } else {
+      response.status(401).json({ message: 'Failed to update product' });
+    }
+  }
+
   @Post('control')
   async(@Body() data: useProduct): Promise<product_control> {
     return this.ProductService.devolutionProduct(data);

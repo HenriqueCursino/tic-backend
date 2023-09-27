@@ -11,4 +11,5 @@ export interface ProductsRepository {
   postProductControl(userId: number): Promise<product_control>;
   createProduct(data: createProduct): Promise<products>;
   deleteProduct(productId: number): Promise<products>;
+  updateProduct(productId: number, data: createProduct): Promise<products>;
 }

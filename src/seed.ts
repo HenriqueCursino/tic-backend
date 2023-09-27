@@ -45,8 +45,12 @@ async function seed() {
           description: 'Computados',
         },
         {
-          name: 'Limpeza e Higiene',
+          name: 'Limpeza',
           description: 'Papel higiênico',
+        },
+        {
+          name: 'Utensilios de cozinha',
+          description: 'Colher, Pratos e Copos',
         },
       ],
     });

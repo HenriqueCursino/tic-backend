@@ -90,6 +90,25 @@ export class ProductService {
     }
   }
 
+  async update(hash: string, data: createProduct) {
+    try {
+      const product = await this.repository.getProductByHash(hash);
+
+      if (!product) {
+        throw new Error('Product not found.');
+      }
+
+      const newProduct = await this.repository.updateProduct(product.id, data);
+
+      return newProduct;
+    } catch (error) {
+      throw new AppError(
+        error?.message || 'Failed to update product',
+        error?.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
   async delete(hash: string) {
     try {
       const product = await this.repository.getProductByHash(hash);

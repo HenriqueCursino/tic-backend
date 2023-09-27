@@ -75,6 +75,26 @@ export class PrismaProductsRepository implements ProductsRepository {
     });
   }
 
+  async updateProduct(
+    productId: number,
+    data: createProduct,
+  ): Promise<products> {
+    return await this.prisma.products.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        category_id: data.categoryId,
+        control_id: data.controlId,
+        origin_id: data.originId,
+        room_id: data.roomId,
+        name: data.name,
+        sku: data.sku,
+        broken_at: data.brokenAt ? new Date() : null,
+      },
+    });
+  }
+
   async postProductControl(userId: number): Promise<product_control> {
     return await this.prisma.product_control.create({
       data: {
